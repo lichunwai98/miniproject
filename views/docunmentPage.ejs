@@ -1,0 +1,13 @@
+<html>
+	<head>
+		<title>docunmentPage</title>
+	</head>
+	<body>
+		<ol>
+			<% for (var i=0; i<restaurant.length; i++) { %>
+				<li>Name: <a href='/main/display?_id=<%= restaurant[i]._id %>'><%= restaurant[i].name %></a></li>
+			<% } %>
+		</ol>
+		<input type="button" onclick="window.location.href='http://localhost:8099/main'"  value="back">
+	</body>
+</html>

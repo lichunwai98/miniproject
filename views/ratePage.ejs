@@ -1,0 +1,21 @@
+<html>
+	<body>
+		<form action="/main/docunmentPage/rate" method="post">
+			rate: <input name="rate"  value=''>
+			<input name="_id" type="hidden" value=' <%=id %>'>
+			<input name="user" type="hidden" value=' <%=Username %>'>
+			<input name="owner" type="hidden" value=' <%=owner %>'>
+			<input type="submit" value="rate"></form>
+			</body>
+			<input type="button" onclick="window.location.href='http://localhost:8099/main'"  value="back to home">
+		<% if (error.length > 0) { %>
+		<div class="alert alert-warning">
+		<strong>Warning!</strong> <%= error%>
+		</div>
+		<% } %>	
+		<% if (success.length > 0) { %>
+		<div class="alert succes">
+		<strong>succes</strong> <%= success%>
+		</div>
+		<% } %>	
+</html>

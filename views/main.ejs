@@ -1,0 +1,13 @@
+<html>
+	<head>
+		<title>Main page</title>
+	</head>
+	<body>
+		<h1>Hello <%= Username %> </h1>
+		<a href=/main/createPage>Create</a><br>
+		<a href=/main/docunmentPage?owner=<%= Username%>>All your docunment</a><br>
+		<a href=/main/searchPage>Search</a><br>
+		<a href=/main/logOut>Log out</a><br>
+		<input type="button" onclick="window.location.href='http://localhost:8099/'"  value="back">
+	</body>
+</html>

@@ -1,0 +1,21 @@
+<html>
+	<head>
+		<title>Login Form</title>
+	
+	</head>
+
+	<body>
+		<form action='http://localhost:8099/login' method="post">
+			*Username: <input name="name" type="text"><br>
+			*Password: <input name="password" type="password"><br>
+			<input type="submit" value="Login">
+			<input type="button" onclick="window.location.href='http://localhost:8099/'"  value="back">
+		</form>
+		<a>* is the required field</a><br>
+	<% if (error.length > 0) { %>
+		<div class="alert alert-warning">
+		<strong>Warning!</strong> <%= error%>
+		</div>
+	<% } %>	
+	</body>
+</html>

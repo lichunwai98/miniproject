@@ -1,0 +1,14 @@
+
+<HTML>
+
+<BODY>
+        <a href=/loginForm>sign in</a><br>
+	<a href=/registerForm>sign up</a><br>
+	<% if (error.length > 0) { %>
+		<div class="alert alert-warning">
+		<strong>Warning!</strong> <%= error%>
+		</div>
+	<% } %>	
+</BODY>
+
+</HTML>

@@ -1,0 +1,33 @@
+<html>
+	<head>
+		<title>Create Form</title>
+	</head>
+	<body>
+		<h1>Create New Restaurant</h1>
+		<form action='http://localhost:8099/main/create' id="createForm" method="post" enctype="multipart/form-data">
+		*name:<input name="name" value=''><br>
+		borough:<input name="borough" value=''><br>
+		cuisine:<input name="cuisine" value=''><br>
+		street:<input name="street" value=''><br>
+		building:<input name="building" value=''><br>
+		zipcode:<input name="zipcode" value=''><br>
+		lon_corrd:<input name="lon_corrd" value=''><br>
+		lat_corrd:<input name="lat_corrd" value=''><br>
+		photo:<input name="photo" type="file"" value=''><br>
+		<input type="submit" value="create">
+		<input type="button" onclick="window.location.href='http://localhost:8099/main'"  value="back">
+		</form>
+			<a>* is the required field</a>
+			<br>
+		<% if (error != "") { %>
+		<div class="alert alert-warning">
+		<strong>Warning!</strong> <%= error%>
+		</div>
+		<% } %>	
+		<% if (success.length > 0) { %>
+		<div class="alert success">
+		<strong>succes</strong> <%= success%>
+		</div>
+		<% } %>	
+	</body>
+</html>

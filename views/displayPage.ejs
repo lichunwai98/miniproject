@@ -1,0 +1,96 @@
+<html>
+	<head>
+		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css"integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="crossorigin=""/>
+		<script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js"integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og=="crossorigin="">
+		</script>
+		<meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+		<title>Display page</title>
+	</head>
+	<style>
+	#map {
+	height: 500px;
+	width : 900px;
+	}
+	</style>
+	<body>
+		<ol>
+			<% if (restaurant.hasOwnProperty('name')) { %>
+				<li>Name: <%= restaurant.name %></li>
+			<% } %>
+
+			<% if (restaurant.hasOwnProperty('_id')) { %>
+				<li>id: <%= restaurant._id %></li>
+			<% } %>
+
+			<% if (restaurant.hasOwnProperty('owner')) { %>
+				<li>owner: <%= restaurant.owner %></li>
+			<% } %>
+
+			<% if (restaurant.hasOwnProperty('cuisine')) { %>
+				<li>cuisine: <%= restaurant.cuisine %></li>
+			<% } %>
+
+			<% if (restaurant.hasOwnProperty('borough')) { %>
+				<li>borough: <%= restaurant.borough %></li>
+			<% } %>
+
+			<% if (restaurant.hasOwnProperty('address')) { %>
+				<% if (restaurant['address'].hasOwnProperty('street')) { %>
+					<li>street: <%= restaurant.address.street %></li>
+				<% } %>
+				<% if (restaurant['address'].hasOwnProperty('building')) { %>
+					<li>building: <%= restaurant.address.building %></li>
+				<% } %>
+				<% if (restaurant['address'].hasOwnProperty('zipcode')) { %>
+					<li>zipcode: <%= restaurant.address.zipcode %></li>
+				<% } %>
+				<% if (restaurant['address'].hasOwnProperty('corrd')) { %>
+					<% if (restaurant.address.corrd[0] != "" && restaurant.address.corrd[1] != "" ) { %>
+						<li>gps: <%= restaurant.address.corrd[0] %> , <%= restaurant.address.corrd[1] %></li>
+						<div id="map"></div>
+						<script>
+						var map = L.map('map').setView([<%=restaurant.address.corrd[0]%>, <%=restaurant.address.corrd[1]%>], 18);
+
+						L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+						attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+						}).addTo(map);
+
+						L.marker([<%=restaurant.address.corrd[0]%>, <%=restaurant.address.corrd[1]%>]).addTo(map)
+						.bindPopup(''+<%=restaurant.name%>)
+						.openPopup();
+						</script>
+					<% } %>	
+				<% } %>
+			<% } %>
+
+
+			<% if (restaurant.hasOwnProperty('grades')) { %>
+				<li>grades: <ol>
+				<% for (var i=0; i<restaurant.grades.length; i++) { %>
+					<li><%=restaurant.grades[i].user%>, score :<%=restaurant.grades[i].score%> </li>
+				<% } %>
+					</ol>
+				 </li>
+			<% } %>	
+			<% if (restaurant.hasOwnProperty('photo')) { %>
+				<li> <img src="data:image/jpeg;base64,<%= restaurant.photo %>"></li>
+			<% } %>	
+
+		</ol>
+		
+		<input type="button" onclick="window.location.href='http://localhost:8099/main/docunmentPage/updateForm?owner=<%=restaurant.owner%>&_id=<%=restaurant._id%>&error=&success='"  value="edit">
+		<input type="button" onclick="window.location.href='http://localhost:8099/main/docunmentPage/delete?owner=<%=restaurant.owner%>&_id=<%=restaurant._id%>'"  value="delete">
+		<input type="button" onclick="window.location.href='http://localhost:8099/main/docunmentPage/ratePage?owner=<%=restaurant.owner%>&_id=<%=restaurant._id%>'"  value="rate">
+		<input type="button" onclick="window.location.href='http://localhost:8099/main'"  value="back to home">
+		<% if (error.length > 0) { %>
+			<div class="alert alert-warning">
+			<strong>Warning!</strong> <%= error%>
+			</div>
+		<% } %>	
+		<% if (success.length > 0) { %>
+			<div class="alert succes">
+			<strong>success</strong> <%= success%>
+			</div>
+		<% } %>	
+	</body>
+</html>

@@ -1,0 +1,88 @@
+<html>
+	<head>
+		<title>UpdateForm</title>
+	</head>
+	<body>
+		<form action='http://localhost:8099/main/docunmentPage/updateForm/update' method="post" enctype="multipart/form-data" >
+		<input name="_id" type="hidden" value='<%=passing._id %>'>
+		<input name="owner" type="hidden" value='<%=passing.owner%>'>
+		<% if (passing.hasOwnProperty('grades')) { %>
+			<% for(var i=0; i<passing['grades'].length; i++){ %>
+			<input name="user" type="hidden" value='<%=passing.grades[i].user%>'>
+			<input name="score" type="hidden" value='<%=passing.grades[i].score%>'>
+			<% } %>
+		<% } %>
+
+		<% if (passing.hasOwnProperty('name')) { %>
+			name:<input name="name" value='<%=passing.name%>'><br>
+		<% } else{ %>
+			name:<input name="name" value=''><br>
+		<% } %>
+	
+		<% if (passing.hasOwnProperty('borough')) { %>
+			borough:<input name="borough" value='<%= passing.borough %>'><br>
+		<% } else{ %>
+			borough:<input name="borough" value=''><br>
+		<% } %>
+		
+		<% if (passing.hasOwnProperty('cuisine')) { %>
+			cuisine:<input name="cuisine" value='<%= passing.cuisine %>'><br>
+		<% } else{ %>
+			cuisine:<input name="cuisine" value=''><br>
+		<% } %>
+		
+
+		
+		<% if (passing.hasOwnProperty('address')) { %>
+			<% if (passing['address'].hasOwnProperty('street')) { %>
+				street:<input name="street" value='<%= passing.address.street %>'><br>
+			<% } else{ %>
+				street:<input name="street" value=''><br>
+			<% } %>
+
+			<% if (passing['address'].hasOwnProperty('zipcode')) { %>
+				zipcode:<input name="zipcode" value='<%= passing.address.zipcode %>'><br>
+			<% } else{ %>
+				zipcode:<input name="zipcode" value=''><br>
+			<% } %>
+
+			<% if (passing['address'].hasOwnProperty('building')) { %>
+				building:<input name="building" value='<%= passing.address.building %>'><br>
+			<% } else{ %>
+				building:<input name="building" value=''><br>
+			<% } %>
+
+			<% if (passing['address'].hasOwnProperty('corrd')) { %>
+				lon_coord:<input name="lon_corrd" value='<%= passing.address.corrd[0] %>'><br>
+				lat_corrd:<input name="lat_corrd" value='<%= passing.address.corrd[1] %>'><br>
+			<% } else{ %>
+				lon_coord:<input name="lon_corrd" value=''><br>
+				lat_corrd:<input name="lat_corrd" value=''><br>
+			<% } %>
+			
+		<% } else{ %>
+			street:<input name="street" value=''><br>
+			zipcode:<input name="zipcode" value=''><br>
+			building:<input name="building" value=''><br>
+			lng_coord:<input name="lon_coord" value=''><br>
+			lat_corrd:<input name="lat_corrd" value=''><br>
+		<% } %>
+
+		photo:<input name="photo" type="file"" value=''><br>
+			
+
+		<input type="submit" value="update">
+		<input type="button" onclick="window.location.href='http://localhost:8099/main'"  value="back yo home">
+		</form>
+		<% if (error.length > 0) { %>
+			<div class="alert alert-warning">
+			<strong>Warning!</strong> <%= error%>
+			</div>
+		<% } %>	
+		<% if (success.length > 0) { %>
+			<div class="alert succes">
+			<strong>success</strong> <%= success%>
+			</div>
+		<% } %>
+	</body>
+</html>
