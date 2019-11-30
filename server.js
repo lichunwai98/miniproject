@@ -50,6 +50,9 @@ const userValidation = [check('name' , 'name is required').not().isEmpty() ,
 const loginValidation = [check('name' , 'name is required').not().isEmpty() , 
 		check('name' , 'name can only be number or char').matches(/^[A-Za-z0-9 ]+$/i)];
 
+const loginValidation = [check('name' , 'name is required').not().isEmpty() , 
+		check('name' , 'name can only be number or char').matches(/^[A-Za-z0-9 ]+$/i)];
+
 const docValidation = [check('name' , 'name can only be number or char').matches(/^[A-Za-z0-9 ]+$/i) , 
 			check('name' , 'naem is required').not().isEmpty(),
 			check('cuisine' , 'cuisine can only be number or char').if(check('cuisine').exists({checkFalsy:true})).isAlphanumeric(),
