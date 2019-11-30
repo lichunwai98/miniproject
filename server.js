@@ -47,6 +47,9 @@ const userValidation = [check('name' , 'name is required').not().isEmpty() ,
 		check('confirmPassword' , 'confirmPassword is required').if(check('confirmPassword').exists()).not().isEmpty(),
 		check('confirmPassword' , 'confirmPassword can only be number or char').if(check('confirmPassword').exists()).matches(/^[A-Za-z0-9 ]+$/i)];
 
+const loginValidation = [check('name' , 'name is required').not().isEmpty() , 
+		check('name' , 'name can only be number or char').matches(/^[A-Za-z0-9 ]+$/i)];
+
 const docValidation = [check('name' , 'name can only be number or char').matches(/^[A-Za-z0-9 ]+$/i) , 
 			check('name' , 'naem is required').not().isEmpty(),
 			check('cuisine' , 'cuisine can only be number or char').if(check('cuisine').exists({checkFalsy:true})).isAlphanumeric(),
@@ -93,7 +96,7 @@ app.get('/loginForm', (req, res) => {
 	}
 });
 
-app.post('/login', userValidation , (req, res) => {
+app.post('/login', loginValidation , (req, res) => {
 	const error = validationResult(req);
 	if (!error.isEmpty()) {
 		res.render("loginForm",{error: error.array()[0].msg});
@@ -102,10 +105,9 @@ app.post('/login', userValidation , (req, res) => {
 	if(req.body.name.length>0){
 		user['name'] = req.body.name;
 	}
-	if(req.body.password.length>0){
-		user['password'] = req.body.password;
-	}
-	if (Object.keys(user).length > 1) {
+
+	user['password'] = req.body.password;
+	if (Object.keys(user).length > 0) {
 		const client = new MongoClient(mongoDBurl);
 		client.connect((err) => {
 			const db = client.db(dbName);
