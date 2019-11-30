@@ -78,10 +78,10 @@
 
 		</ol>
 		
-		<input type="button" onclick="window.location.href='http://localhost:8099/main/docunmentPage/updateForm?owner=<%=restaurant.owner%>&_id=<%=restaurant._id%>&error=&success='"  value="edit">
-		<input type="button" onclick="window.location.href='http://localhost:8099/main/docunmentPage/delete?owner=<%=restaurant.owner%>&_id=<%=restaurant._id%>'"  value="delete">
-		<input type="button" onclick="window.location.href='http://localhost:8099/main/docunmentPage/ratePage?owner=<%=restaurant.owner%>&_id=<%=restaurant._id%>'"  value="rate">
-		<input type="button" onclick="window.location.href='http://localhost:8099/main'"  value="back to home">
+		<input type="button" onclick="window.location.href='/main/docunmentPage/updateForm?owner=<%=restaurant.owner%>&_id=<%=restaurant._id%>&error=&success='"  value="edit">
+		<input type="button" onclick="window.location.href='/main/docunmentPage/delete?owner=<%=restaurant.owner%>&_id=<%=restaurant._id%>'"  value="delete">
+		<input type="button" onclick="window.location.href='/main/docunmentPage/ratePage?owner=<%=restaurant.owner%>&_id=<%=restaurant._id%>'"  value="rate">
+		<input type="button" onclick="window.location.href='/main'"  value="back to home">
 		<% if (error.length > 0) { %>
 			<div class="alert alert-warning">
 			<strong>Warning!</strong> <%= error%>

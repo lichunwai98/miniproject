@@ -5,11 +5,11 @@
 	</head>
 
 	<body>
-		<form action='http://localhost:8099/login' method="post">
+		<form action='/login' method="post">
 			*Username: <input name="name" type="text"><br>
 			*Password: <input name="password" type="password"><br>
 			<input type="submit" value="Login">
-			<input type="button" onclick="window.location.href='http://localhost:8099/'"  value="back">
+			<input type="button" onclick="window.location.href='/'"  value="back">
 		</form>
 		<a>* is the required field</a><br>
 	<% if (error.length > 0) { %>

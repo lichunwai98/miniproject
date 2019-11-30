@@ -3,7 +3,7 @@
 		<title>UpdateForm</title>
 	</head>
 	<body>
-		<form action='http://localhost:8099/main/docunmentPage/updateForm/update' method="post" enctype="multipart/form-data" >
+		<form action='/main/docunmentPage/updateForm/update' method="post" enctype="multipart/form-data" >
 		<input name="_id" type="hidden" value='<%=passing._id %>'>
 		<input name="owner" type="hidden" value='<%=passing.owner%>'>
 		<% if (passing.hasOwnProperty('grades')) { %>
@@ -72,7 +72,7 @@
 			
 
 		<input type="submit" value="update">
-		<input type="button" onclick="window.location.href='http://localhost:8099/main'"  value="back to home">
+		<input type="button" onclick="window.location.href='/main'"  value="back to home">
 		</form>
 		<% if (error.length > 0) { %>
 			<div class="alert alert-warning">
