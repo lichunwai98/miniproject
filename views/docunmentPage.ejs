@@ -3,6 +3,7 @@
 		<title>docunmentPage</title>
 	</head>
 	<body>
+		<h1>Showing <%=restaurant.length%> document(s).</h1>
 		<ol>
 			<% for (var i=0; i<restaurant.length; i++) { %>
 				<li>Name: <a href='/main/display?_id=<%= restaurant[i]._id %>'><%= restaurant[i].name %></a></li>

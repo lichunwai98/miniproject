@@ -1,7 +1,7 @@
 <html>
 	<body>
 		<form action="/main/docunmentPage/rate" method="post">
-			rate: <input name="rate"  value=''>
+			rate: <input name="rate"  value='' min='1' max='10'>
 			<input name="_id" type="hidden" value=' <%=id %>'>
 			<input name="user" type="hidden" value=' <%=Username %>'>
 			<input name="owner" type="hidden" value=' <%=owner %>'>

@@ -42,10 +42,10 @@ app.set('view engine', 'ejs');
 
 const userValidation = [check('name' , 'name is required').not().isEmpty() , 
 		check('name' , 'name can only be number or char').matches(/^[A-Za-z0-9 ]+$/i),
-		check('password' , 'password can only be number or char').isNumeric(),
-		check('password' , 'password can only be number or char').not().isEmpty(),
-		check('confirmPassword' , 'confirmPassword can only be number or char').if(check('confirmPassword').not().isEmpty()),
-		check('confirmPassword' , 'confirmPassword can only be number or char').if(check('confirmPassword').exists()).isNumeric()];
+		check('password' , 'password is required').not().isEmpty(),
+		check('password' , 'password can only be number or char').matches(/^[A-Za-z0-9 ]+$/i),
+		check('confirmPassword' , 'confirmPassword is required').if(check('confirmPassword').exists()).not().isEmpty(),
+		check('confirmPassword' , 'confirmPassword can only be number or char').if(check('confirmPassword').exists()).matches(/^[A-Za-z0-9 ]+$/i)];
 
 const docValidation = [check('name' , 'name can only be number or char').matches(/^[A-Za-z0-9 ]+$/i) , 
 			check('name' , 'naem is required').not().isEmpty(),
@@ -76,7 +76,7 @@ function checkAuth(req, res, next) {
 const findRestaurants = (db, criteria, callback) => {
 	let criteriaObj = criteria;
 	//console.log(criteriaObj);
-	cursor = db.collection('restaurant').find(criteriaObj).limit(20);
+	cursor = db.collection('project_restaurant').find(criteriaObj).limit(20);
 	cursor.toArray((err,docs) => {
 		assert.equal(err,null);
 		//console.log(docs);
@@ -255,7 +255,7 @@ app.post('/main/create',docValidation , (req, res) => {
 							const client = new MongoClient(mongoDBurl);
 							client.connect((err) => {
 								const db = client.db(dbName);
-								db.collection('restaurant').insertOne(docObj,(err,result) => {
+								db.collection('project_restaurant').insertOne(docObj,(err,result) => {
 								console.log("success");
 								res.render("createPage",  {Username: req.session.username,error:"",success:"success"});
 								});
@@ -434,7 +434,7 @@ app.post('/main/docunmentPage/updateForm/update',docValidation, (req, res) => {
 						let criteria = {};
 						criteria['_id'] = ObjectId(docObj._id);
 						delete docObj._id;
-						db.collection('restaurant').replaceOne(criteria,docObj,(err,result) => {
+						db.collection('project_restaurant').replaceOne(criteria,docObj,(err,result) => {
 							console.log(JSON.stringify(result));
 							res.redirect('/main/docunmentPage/updateForm?_id='+ObjectId(req.body._id)+'&owner='+docObj.owner+'&error=&success=succes')
 						});
@@ -458,7 +458,7 @@ app.get('/main/docunmentPage/delete' , checkAuth,(req, res) => {
 			const db = client.db(dbName);
 			let criteria = {};
 			criteria['_id'] = ObjectId(req.query._id);
-			db.collection('restaurant').deleteOne(criteria,(err,result) => {
+			db.collection('project_restaurant').deleteOne(criteria,(err,result) => {
 				//console.log(result);
 				res.redirect('/main/docunmentPage?owner='+req.session.username);
 			});
@@ -508,7 +508,7 @@ app.post('/main/docunmentPage/rate', rateValidation, (req, res) => {
 						let rateobject = {user : docObj.user.trim() , score: docObj.rate};
 						restaurants[0].grades[restaurants[0].grades.length] = rateobject;
 						//console.log(restaurants);
-						db.collection('restaurant').replaceOne({_id: ObjectId(restaurants[0]._id) },restaurants[0],(err,result) => {
+						db.collection('project_restaurant').replaceOne({_id: ObjectId(restaurants[0]._id) },restaurants[0],(err,result) => {
 							console.log(JSON.stringify(result));
 							res.render("ratePage" ,{Username:req.session.username  , id :req.body._id , owner:req.body.owner , error:"",success:"success"});
 						});
@@ -520,7 +520,7 @@ app.post('/main/docunmentPage/rate', rateValidation, (req, res) => {
 				let rateArray = [{user : docObj.user.trim() , score: docObj.rate}];
 				restaurants[0].grades = rateArray;
 				//console.log(restaurants);
-				db.collection('restaurant').replaceOne({_id: ObjectId(restaurants[0]._id) },restaurants[0],(err,result) => {
+				db.collection('project_restaurant').replaceOne({_id: ObjectId(restaurants[0]._id) },restaurants[0],(err,result) => {
 					//console.log(JSON.stringify(result));
 					res.render("ratePage" ,{Username:req.session.username  , id :req.body._id , owner:req.body.owner , error:"",success:"success"});
 				});
@@ -601,7 +601,7 @@ app.post('/api/restaurant/',apiValidation, (req, res) => {
 			client.connect((err) => {
 				assert.equal(null,err);
 				const db = client.db(dbName);
-				db.collection('restaurant').insertOne(docObj,(err,result) => {
+				db.collection('project_restaurant').insertOne(docObj,(err,result) => {
 					//console.log("success");
 					res.status(200).json({status: "ok",_id:docObj._id});
 				});
@@ -620,7 +620,7 @@ app.get('/api/restaurant/name/:name', (req, res) => {
 		console.log("Connected successfully to server");
 		let docObj = {}
 		//console.log(req.params.name)
-		let condition = {name : req.params.name}
+		let condition = {'name': req.params.name}
 		const db = client.db(dbName);
 		findRestaurants(db, condition, (restaurants) => {
 			if(restaurants.length != 0){
@@ -640,7 +640,7 @@ app.get('/api/restaurant/borough/:borough', (req, res) => {
 		console.log("Connected successfully to server");
 		let docObj = {}
 		//console.log(req.params.name)
-		let condition = {name : req.params.borough}
+		let condition = {'borough' : req.params.borough}
 		const db = client.db(dbName);
 		findRestaurants(db, condition, (restaurants) => {
 			if(restaurants.length != 0){
@@ -660,7 +660,7 @@ app.get('/api/restaurant/cuisine/:cuisine', (req, res) => {
 		console.log("Connected successfully to server");
 		let docObj = {}
 		//console.log(req.params.name)
-		let condition = {name : req.params.cuisine}
+		let condition = {'cuisine' : req.params.cuisine}
 		const db = client.db(dbName);
 		findRestaurants(db, condition, (restaurants) => {
 			if(restaurants.length != 0){
@@ -680,7 +680,7 @@ app.get('/api/restaurant/name/:name/borough/:borough', (req, res) => {
 		console.log("Connected successfully to server");
 		let docObj = {}
 		//console.log(req.params.name)
-		let condition = {name : req.params.name, borough : req.params.borough};
+		let condition = {'name' : req.params.name, 'borough' : req.params.borough};
 		const db = client.db(dbName);
 		findRestaurants(db, condition, (restaurants) => {
 			if(restaurants.length != 0){
@@ -700,7 +700,7 @@ app.get('/api/restaurant/name/:name/cuisine/:cuisine', (req, res) => {
 		console.log("Connected successfully to server");
 		let docObj = {}
 		//console.log(req.params.name)
-		let condition = {name : req.params.name, cuisine : req.params.cuisine};
+		let condition = {'name' : req.params.name, 'cuisine' : req.params.cuisine};
 		const db = client.db(dbName);
 		findRestaurants(db, condition, (restaurants) => {
 			if(restaurants.length != 0){
@@ -720,7 +720,7 @@ app.get('/api/restaurant/borough/:borough/cuisine/:cuisine', (req, res) => {
 		console.log("Connected successfully to server");
 		let docObj = {}
 		//console.log(req.params.name)
-		let condition = {borough : req.params.borough, cuisine : req.params.cuisine};
+		let condition = {'borough' : req.params.borough, 'cuisine' : req.params.cuisine};
 		const db = client.db(dbName);
 		findRestaurants(db, condition, (restaurants) => {
 			if(restaurants.length != 0){
@@ -740,7 +740,7 @@ app.get('/api/restaurant/name/:name/borough/:borough/cuisine/:cuisine', (req, re
 		console.log("Connected successfully to server");
 		let docObj = {}
 		//console.log(req.params.name)
-		let condition = {name : req.params.name, borough : req.params.borough, cuisine : req.params.cuisine};
+		let condition = {'name' : req.params.name, 'borough' : req.params.borough, 'cuisine' : req.params.cuisine};
 		const db = client.db(dbName);
 		findRestaurants(db, condition, (restaurants) => {
 			if(restaurants.length != 0){
