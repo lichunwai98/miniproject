@@ -1,6 +1,6 @@
 {
-	"name": "lichunwai98_miniproject",
-	"description": "",
+	"name": "comps381f-miniproject-group23",
+	"description": "Group 23 miniproject",
 	"version": "0.0.1",
 	"dependencies": {
 		"body-parser": "*",
