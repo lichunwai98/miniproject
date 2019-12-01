@@ -250,7 +250,7 @@ app.post('/main/create',docValidation , (req, res) => {
 				findRestaurants(db, docObj, (restaurants) => {
 					client.close();
 					if(restaurants.length > 0){
-						res.render("createPage",  {Username: req.session.username,error:"restaurant alread exists",success:""});
+						res.render("createPage",  {Username: req.session.username,error:"restaurant already exists",success:""});
 					}
 					else {
 						if (Object.keys(docObj).length > 1) {
@@ -598,7 +598,7 @@ app.post('/api/restaurant/',apiValidation, (req, res) => {
 		}
 	});
 	console.log(docObj);
-	if (Object.keys(docObj).length > 2) {
+	if (Object.keys(docObj).length >= 2) {
 		const client = new MongoClient(mongoDBurl);
 			client.connect((err) => {
 				assert.equal(null,err);
@@ -626,10 +626,10 @@ app.get('/api/restaurant/name/:name', (req, res) => {
 		const db = client.db(dbName);
 		findRestaurants(db, condition, (restaurants) => {
 			if(restaurants.length != 0){
-				res.status(200).json({restaurants});
+				res.status(200).json(restaurants);
 			}
 			else {
-				res.status(200).end('{}');
+				res.status(200).json({});
 			}
 		});
 	});
@@ -646,10 +646,10 @@ app.get('/api/restaurant/borough/:borough', (req, res) => {
 		const db = client.db(dbName);
 		findRestaurants(db, condition, (restaurants) => {
 			if(restaurants.length != 0){
-				res.status(200).json({restaurants});
+				res.status(200).json(restaurants);
 			}
 			else {
-				res.status(200).end('{}');
+				res.status(200).json({});
 			}
 		});
 	});	
@@ -666,10 +666,10 @@ app.get('/api/restaurant/cuisine/:cuisine', (req, res) => {
 		const db = client.db(dbName);
 		findRestaurants(db, condition, (restaurants) => {
 			if(restaurants.length != 0){
-				res.status(200).json({restaurants});
+				res.status(200).json(restaurants);
 			}
 			else {
-				res.status(200).end('{}');
+				res.status(200).json({});
 			}
 		});
 	});	
@@ -686,10 +686,10 @@ app.get('/api/restaurant/name/:name/borough/:borough', (req, res) => {
 		const db = client.db(dbName);
 		findRestaurants(db, condition, (restaurants) => {
 			if(restaurants.length != 0){
-				res.status(200).json({restaurants});
+				res.status(200).json(restaurants);
 			}
 			else {
-				res.status(200).end('{}');
+				res.status(200).json({});
 			}
 		});
 	});
@@ -706,10 +706,10 @@ app.get('/api/restaurant/name/:name/cuisine/:cuisine', (req, res) => {
 		const db = client.db(dbName);
 		findRestaurants(db, condition, (restaurants) => {
 			if(restaurants.length != 0){
-				res.status(200).json({restaurants});
+				res.status(200).json(restaurants);
 			}
 			else {
-				res.status(200).end('{}');
+				res.status(200).json({});
 			}
 		});
 	});
@@ -726,10 +726,10 @@ app.get('/api/restaurant/borough/:borough/cuisine/:cuisine', (req, res) => {
 		const db = client.db(dbName);
 		findRestaurants(db, condition, (restaurants) => {
 			if(restaurants.length != 0){
-				res.status(200).json({restaurants});
+				res.status(200).json(restaurants);
 			}
 			else {
-				res.status(200).end('{}');
+				res.status(200).json({});
 			}
 		});
 	});
@@ -746,10 +746,10 @@ app.get('/api/restaurant/name/:name/borough/:borough/cuisine/:cuisine', (req, re
 		const db = client.db(dbName);
 		findRestaurants(db, condition, (restaurants) => {
 			if(restaurants.length != 0){
-				res.status(200).json({restaurants});
+				res.status(200).json(restaurants);
 			}
 			else {
-				res.status(200).end('{}');
+				res.status(200).json({});
 			}
 		});
 	});
